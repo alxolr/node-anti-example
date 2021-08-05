@@ -11,13 +11,20 @@ export default async (req, res, next) => {
     let result = [];
 
     for (let id of ids) {
-      if (result.length) {
-        result = await service1.execute(result, id);
-        result = await service2.execute(result, id);
-        result = await service3.execute(result, id);
-        result = await service4.execute(result, id);
-        result = await service5.execute(result, id);
-      }
+      const ser1 = await service1.getBy(id);
+      result.push(ser1);
+
+      const ser2 = await service2.findById(id);
+      result.push(ser2);
+
+      const ser3 = await service3.execute(id);
+      result.push(ser3);
+
+      const ser4 = await service4.getData(id);
+      result.push(ser4);
+
+      const ser5 = await service5.getById(id);
+      result.push(ser5);
     }
 
     res.json(result);
